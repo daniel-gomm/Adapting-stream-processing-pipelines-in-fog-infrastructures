@@ -168,7 +168,7 @@ All in all, the set requirements are predominantly met by the proof of concept i
 The limitations of this thesis can be categorized into the limitations of the developed conceptual framework, the limitations of the implementation, and the limitations of the evaluation.\par
 
 A clear limitation of the developed conceptual framework is that it revolves around two distinct procedures, which address different cases. This is a limitation since it requires a preceding categorization of the current case to decide which procedure to choose.\\
-Additionally, the conceptual framework is developed for a use case with a centralized orchestrator. The centralization in \gls{dlac} limits the possibility of decentralized fog computing because it creates a dependency on a centralized orchestrator and a centralized database that handles the global availability of checkpoints.\par
+Additionally, the conceptual framework is developed for a use case with a centralized orchestrator. The centralization in \gls{dlac} limits the possibility of decentralized fog computing because it creates a dependency on a centralized orchestrator and a centralized database to provide globally available checkpoints.\par
 
 The implementation is limited by technology dependency, missing handling of interrupted \gls{pe}s, and compatibility constraints.\\
 A dependency exists to Apache Kafka because the implementation relies on its integrated offset management to handle the buffer state. This technology dependency could be addressed by persisting the buffer state, or even the whole operator state to the upstream \gls{pe}, as proposed by Fernandez et al. \cite{CastroFernandez.2013}.\\
