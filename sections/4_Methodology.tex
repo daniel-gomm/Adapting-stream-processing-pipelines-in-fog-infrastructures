@@ -99,6 +99,10 @@ As a first step, the different existing solutions presented in chapter \ref{lRel
     \end{tabular}
 \end{table}
 
+%Unterscheiden nach: 
+%\checkmark: achievable with no/kleine Anpassungen
+%\textasciitilde: achievable with considerable effort
+%\ding{55}: difficult to achieve, even with considerable effort
 
 When comparing the approaches in Table \ref{tTechnologyComparison}, the similarities between the \gls{vm} live migration, and the checkpoint/restore container migration approaches become visible. In terms of their capabilities to fulfill the requirements, the only difference is that \gls{vm} live migration approaches are less appropriate in terms of the \ref{rFogCompatibility}. This is apparent since containerization is the better-suited technology for virtualization on low resource computing devices \cite{Jalali.2016}, which is also why deploying fog computing applications in \gls{vm}s has been becoming less popular in recent years \cite{Puliafito.2018}. Because of this reasoning, the \gls{vm} level approaches are dismissed in favor of the container checkpoint/restore based approaches.\\
 Excluding the \gls{vm} live migration leaves explicit state management and the checkpoint/restore container approaches to be compared further. Both classes of approaches fundamentally address the \ref{rBasicMigration} requirement, both can adopt measures for \ref{rProblemHandling}, as wells as measures to minimize the \ref{rDowntime}, and both can be provide \ref{rFogCompatibility}.\\ 
@@ -205,4 +209,4 @@ The \ref{rBasicMigration} requirement and the \ref{rRecovery} requirement are th
 The \textit{\acrshort{pe} live migration} focuses on the \ref{rProblemHandling} requirement by keeping the \gls{pe} on the origin node paused until a successful migration is confirmed. Otherwise, the paused \gls{pe} could be resumed, and the migration could be retried at a later point in time or with another target node. The \textit{\acrshort{pe} restoration} cannot provide this safety measure since the \gls{pe} on the origin node is not available in this case. A rudimentary measure is the return of the restoration status, which allows a situation-specific handling. For example, the \textit{\acrshort{pe} restoration} could be retried with another target node or from an older checkpoint.\\
 The consistency of the resulting \gls{pe} output (\ref{rConsistency} requirement) is addressed by including explicit information about the position in the event stream, from which processing should be picked up through the buffer state information. This information is mandatory for a consistent \textit{\acrshort{pe} live migration}, as well as for a consistent \textit{\acrshort{pe} restoration}.\\
 The minimization of the \ref{rDowntime} is considered in the \textit{\acrshort{pe} live migration} as event processing is only paused for the duration of the state transferal and the invocation of the new \gls{pe}.\\
-The \ref{rDevelopment} and \ref{rFogCompatibility} requirements are not directly addressed by the developed conceptual framework and instead need to be taken into account when implementing it.\par
+The \ref{rDevelopment} and \ref{rFogCompatibility} requirements are not directly addressed by the developed conceptual framework and instead need to be taken into account when implementing it\addtocontents{toc}{\protect\pagebreak}.
