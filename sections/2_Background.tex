@@ -1,0 +1,79 @@
+\section{Background}
+\label{lBackground}
+This chapter introduces fog computing and stream processing. A profound understanding of both of these topics is needed as background for the subsequent chapters. Thus, fog computing is thoroughly introduced, defined, and its intricacies are pointed out. Furthermore, stream processing is introduced together with the concept of state in the stream processing context. State is then examined in detail, and relevant aspects in the handling of state are pointed out.
+
+\subsection{Fog Computing}
+\label{lFogComputing}
+There are various definitions of the fog computing paradigm. In this thesis, the definition of Bonomi et al. \cite{Bonomi.2012} is used. They state that "fog computing extends the cloud computing paradigm to the edge of the network" \cite{Bonomi.2012}. They further describe fog computing as a highly virtualized platform that connects end devices with traditional cloud services by providing compute, storage, and networking services in between.\\
+This definition of fog computing includes all available connected devices, meaning that compared to cloud computing, which typically solely utilizes large data centers \cite{Yousefpour.2019}, fog computing takes advantage of small servers, routers, switches, gateways, set-top boxes, and other small computing devices \cite{Yousefpour.2019} as well as the cloud infrastructure, which remains a core component.\par
+To give a more comprehensive overview the characteristics that portray fog computing are presented in the following listing: 
+
+\begin{itemize}
+    \item Since a lot of the devices used in fog computing occupy a relatively small space, this hardware can be located close to the network edge \cite{Yousefpour.2019}, allowing for \textbf{low latency} and \textbf{location aware computing} \cite{Bonomi.2012, Yigitoglu.2017}. In \ref{cMedical}, hardware close to the edge and location-aware computing is used to allow a low latency.
+    \item The fog is comprised of many different devices with vastly varying capabilities. This makes the \textbf{heterogeneity of devices} \cite{Bonomi.2012} another characteristic of fog computing. For example, in \ref{cMedical}, the pipeline is deployed on a wearable device with limited computational capabilities and devices in the close vicinity that possess significantly more computational capabilities. These edge near devices host the more computationally intensive \gls{pe}s.
+    \item A \textbf{large number of nodes} makes \textbf{privacy} a priority \cite{Yigitoglu.2017} since a large amount of data is collected (especially in the \gls{iot}) and after that distributed for processing, requiring security to be provided at the edge to ensure that sensitive data is not shared with unwanted resources \cite{Yigitoglu.2017}. At the same time, fog computing can enhance privacy. For example, production data in an industrial \gls{iot} application can be preprocessed in the company's local network before sending it to cloud servers performing the rest of the computation.
+    \item \textbf{Interoperability} between fog nodes is needed since many applications are deployed across multiple fog nodes \cite{Bonomi.2012}. This is especially prevalent in stream processing applications since when a stream processing pipeline is deployed across multiple fog nodes, their correct interplay is crucial for a consistent operation.
+    \item Devices in the fog are usually \textbf{geographically distributed} \cite{Bonomi.2012} and connected to the network predominantly through wireless \textbf{access} \cite{Osanaiye.2017, Bonomi.2012, Baccarelli.2018}. The geographic distribution is exploited in \ref{cMedical} to lower the computation time by only deploying \gls{pe}s on fog nodes in the close vicinity that have a low latency.
+\end{itemize}
+
+As presented, the heterogeneity of devices is a characteristic of fog computing. With the heterogeneity of devices comes a heterogeneity of resources, architectures, and operating systems \cite{Puliafito.2019}. Addressing this issue, virtualization technologies are utilized to provide a more generic environment for applications on fog nodes \cite{Puliafito.2019}. Hence, it is necessary to look at commonly deployed virtualization technologies.\\
+The two main approaches taken for virtualization are hardware virtualization in the form of so-called \gls{vm} and operating system level virtualization, better known as containerization \cite{Puliafito.2019}. Sharing the kernel with the operating system makes containerization more lightweight than virtual machines, which leads to containerization being the more appropriate solution in regards to the overall footprint and support of workload mobility \cite{Puliafito.2019}. Containerization is particularly vital in fog computing since processing is not only performed on devices with an abundance of computing resources, but also on smaller devices that only provide moderate computing resources at low power consumption \cite{Jalali.2016}. In many cases, this makes it difficult or even impossible to deploy virtual machines. The choice between \gls{vm}s and containers is context and need dependent, but due to the described factors, containerization has become the reference technology for fog computing in the last years \cite{Puliafito.2018}.\par
+
+Fog computing is used in a multitude of different use cases \cite{Yousefpour.2019}, mostly in combination with \gls{iot} devices. These use cases include connected vehicles, health care, smart city/smart grid, video surveillance, and industrial \gls{iot} \cite{Yousefpour.2019}. In these cases, using fog computing can address volatile workloads, resource constraints, latency requirements, and privacy concerns \cite{Yigitoglu.2017}.
+
+
+\subsection{Stream Processing}
+\label{lStreamProcessing}
+Stream processing links a collection of parallelly computing \gls{pe}s through channels \cite{Stephens.1997}. Typically, three different types of \gls{pe}s are differentiated based on their in- and output configuration:
+\begin{itemize}
+    \item \gls{pe}s that have no input are called sources \cite{Stephens.1997}. They pass input into the system that is then further processed. In \ref{cMedical}, the source is the \gls{pe} that inputs the sensory electrocardiogram data into the system.
+    \item Filters (also called agents) take input data, perform computation on it and output the result \cite{Stephens.1997}. Examples for these intermediary processors are the amplifying, filtering, and classifying \gls{pe}s from \ref{cMedical}.
+    \item \gls{pe}s that only possess inputs are named sinks \cite{Stephens.1997}. The corresponding \gls{pe} from \ref{cMedical} is the \gls{pe} that alarms the patient.
+\end{itemize}
+These systems of linked \gls{pe}s are called stream processing systems \cite{Stephens.1997} or stream processing pipelines. In stream processing pipelines, data is passed in between \gls{pe}s in the form of a data stream, which is a list of distinct data elements sourced from a data set of interest with indefinite length \cite{Stephens.1997}.\par
+
+\subsubsection{Event-Driven Stream Processing}
+\label{lEventDrivenStreamProcessing}
+
+An event-driven stream processing pipeline is a particular form of a stream processing pipeline.It consists of a number of event-driven \gls{pe}s, which operate on so-called events. In principle, every notable thing can be an event \cite{Michelson.2006}. An event consists of an event header and an event body \cite{Michelson.2006}. While the event header describes the occurrence of the element (with a timestamp, event creator, etc.), the event body represents what happened \cite{Michelson.2006}.\\
+Looking at \ref{cMedical}, an event passed into the pipeline by the source \gls{pe} might look like the illustration in Figure \ref{fMedicalEvent}.\par
+
+\begin{figure}[H]
+    \centering
+    \graphicspath{{./figures/code/}}
+\includesvg[width=5.2cm]{figures/visualizations/MedicalEvent_500.svg}
+\caption{Exemplary visualisation of an event}
+\label{fMedicalEvent}
+\end{figure}
+
+In an event-driven stream processing system, the interconnected \gls{pe}s can be realized as event-driven functions. An event-driven function is an reusable, independent entity, which take events as input, performs a specific task on them, and outputs events.
+
+
+\subsubsection{State in Stream Processing}
+\label{lStateStreamProcessing}
+
+One major categorization for \gls{pe}s is whether they have a state and are therefore stateful or if they are stateless \cite{CastroFernandez.2013}. Usually, this differentiation refers to \gls{pe}s whose outputs solely depend on the current event as stateless and to the \gls{pe}s whose outputs additionally depend on past events as stateful. The concept of state is assessed to more precisely differentiate these categories of \gls{pe}s.\par
+
+To et al. \cite{To.2017} define the state as "the intermediate value of a specific computation that will be used in subsequent operations during the processing of a data flow".  When considering stream processing, each \gls{pe} has its own state. The most commonly used abstraction of state is the so-called operator state \cite{To.2017}, which describes the state from the \gls{pe}'s view \cite{To.2017}. It can be further divided into processing, buffer, and routing state \cite{To.2017}.
+The processing state is present in all \gls{pe}s, whose output depends on the current input and the past input \cite{CastroFernandez.2013}. It is composed of a set of values that have been obtained through past computation.\\
+It is a common practice to keep output buffers between \gls{pe}s in stream processing to compensate for temporary network and stream rate problems\cite{CastroFernandez.2013}. The buffer state accounts for the events which have been processed by a \gls{pe} but have yet to be processed by the following \gls{pe} \cite{CastroFernandez.2013}. In this thesis, the concept of buffer state is extended to not only account for the output buffers, but also for positional information about the event that has most recently been processed by the \gls{pe}.\\
+Finally, the routing state holds the information on how the \gls{pe}'s output events should be routed to the following \gls{pe}s \cite{CastroFernandez.2013}. The routing state bears particular importance when the output destination can change at runtime.\par
+Using the abstraction of operator state, so-called stateless \gls{pe}s do possess state. They have a buffer and a routing state but lack a processing state. Only the so-called stateful \gls{pe}s possess a processing state as well. This means that the terms of stateful and stateless specifically refer to the processing state when the state is viewed from the \gls{pe}’s point of view.\par
+
+\textbf{Operations on State}\par
+The effective management of state requires a multitude of operations on the state \cite{To.2017}. In the following, a few particularly important operations are described.\\
+A key aspect of state handling revolves around the question of how to store and purge state effectively. State can be stored either in-memory or in persistent storage \cite{To.2017}. While storing in-memory yields performance improvements \cite{Venkatesh.2019}, the stored state is not persistent and therefore does not survive system restarts. Somewhat of a middle way is taken by Apache Flink \cite{.06082020}, when using RocksDB as so-called "State Backend", since RocksDB \cite{GitHub.06082020} inserts new writes into an in-memory data structure, which is flushed to a file on storage when it is filled up.\\
+To prevent an expired state from taking up storage capacity, the data can be purged \cite{To.2017}, which is another operation in state management that can be implemented into a system.\\
+The migration of the \gls{pe}'s state is an operation that is essential to the migration of the respective \gls{pe}. This operation can be implemented in various ways with different strengths and weaknesses. The following chapter discusses these different tactics in greater detail.\par
+
+\textbf{Checkpointing State}\par
+A checkpoint refers to a backed-up intermediate result of a \gls{pe}, from which processing can be recovered \cite{Zheng.20}. It describes the state of the checkpointed entity at a specific point in time.\par
+The checkpointing process can either be coordinated globally across the whole pipeline or independently for every \gls{pe} \cite{Gibson.2014}. Additionally, the second differentiation is whether checkpointing is performed synchronous or asynchronous \cite{Gibson.2014}. This results in the following possible checkpointing tactics:
+
+\begin{itemize}
+    \item In \textbf{Synchronous global checkpointing}, a consistent snapshot of all involved nodes is obtained, for example, by using a “stop-the-world” approach \cite{Murray.2013, Gibson.2014}, where incoming data is stopped, remaining data is processed, and after that, the states of all involved entities are captured.
+    \item \textbf{Asynchronous global checkpointing} also achieves a snapshot across all involved nodes, but it allows checkpointing of nodes at different times \cite{Gibson.2014}. A famous example of this process is the Chandy-Lamport algorithm \cite{Chandy.1985}.
+    \item In \textbf{asynchronous independent checkpointing} the state of single nodes/\gls{pe}s is captured independently of others. These recorded snapshots do not necessarily comprise a consistent global state \cite{Gibson.2014}.
+\end{itemize}
+
+
