@@ -1,6 +1,6 @@
 \section{Background}
 \label{lBackground}
-This chapter introduces fog computing and stream processing. A profound understanding of both of these topics is needed as background for the subsequent chapters. Thus, fog computing is thoroughly introduced, defined, and its intricacies are pointed out. Furthermore, stream processing is introduced together with the concept of state in the stream processing context. State is then examined in detail, and relevant aspects in the handling of state are pointed out.
+This chapter introduces fog computing and stream processing. A profound understanding of both of these topics is needed as background for the subsequent chapters. Thus, fog computing is thoroughly introduced, defined, and its intricacies are pointed out. Furthermore, stream processing is introduced together with the concept of state in the context of stream processing. State is then examined in detail, and relevant aspects in the handling of state are pointed out.
 
 \subsection{Fog Computing}
 \label{lFogComputing}
@@ -29,13 +29,13 @@ The two main approaches taken for virtualization are hardware virtualization in 
 Stream processing links a collection of parallelly computing \gls{pe}s through channels \cite{Stephens.1997}. These systems of linked \gls{pe}s are called stream processing systems \cite{Stephens.1997} or stream processing pipelines. In stream processing pipelines, data is passed in between \gls{pe}s in the form of a data stream, which is a list of distinct data elements sourced from a data set of interest with indefinite length \cite{Stephens.1997}. The data in a stream could, for example, be stock prices, postings in social networks, or sensory data \cite{Hesse.2015} like the electrocardiogram data in \ref{cMedical}.\\
 Typically, stream processing systems consist of three differentiated types of \gls{pe}s. This differentiation is based on their in- and output configuration. Distinguished are:
 \begin{itemize}
-    \item \gls{pe}s that have no inputs. They are called sources \cite{Stephens.1997} and mark an entry point for data into a stream processing pipeline. Sources pass data into the system where this data is further processed. In \ref{cMedical}, the source is the \gls{pe} that inputs the sensory electrocardiogram data into the system.
+    \item \gls{pe}s that have no inputs. They are called sources \cite{Stephens.1997} and mark an entry point for data into a stream processing pipeline. Sources pass data into the system where this data is then further processed. In \ref{cMedical}, the source is the \gls{pe} that inputs the sensory electrocardiogram data into the system.
     \item Filters (also called agents or processors) that take input data, perform computation on it, and output the result \cite{Stephens.1997}. Examples for these intermediary processors are the amplifying, filtering, and classifying \gls{pe}s from \ref{cMedical}.
     \item \gls{pe}s that only possess inputs. They are called sinks \cite{Stephens.1997} and mark the end of a pipeline. Sinks use the incoming data to interact with entities outside of the stream processing pipeline. For example, the final \gls{pe} in \ref{cAggregation} outputs events to a \gls{csv} file, and the final \gls{pe} in \ref{cMedical} alarms the patient.
 \end{itemize}
 
 Filters can be further categorized into deterministic and non-deterministic filters \cite{Stephens.1997}. While deterministic filters follow a functional specification that produces a predictable outcome, non-deterministic filters do not have a predictable outcome.\\
-Furthermore, \gls{pe}s can be categorized into stateful and stateless \gls{pe}s \cite{CastroFernandez.2013}. The difference between these types of \gls{pe}s is extensively discussed in chapter \ref{lStateStreamProcessing}.
+Furthermore, \gls{pe}s can be categorized into stateful and stateless \gls{pe}s \cite{CastroFernandez.2013}. The difference between these types of \gls{pe}s is discussed extensively in chapter \ref{lStateStreamProcessing}.
 
 \subsubsection{Event-Driven Stream Processing}
 \label{lEventDrivenStreamProcessing}
@@ -47,12 +47,12 @@ As an example from \ref{cMedical}, an event passed into the pipeline by the sour
     \centering
     \graphicspath{{./figures/code/}}
 \includesvg[width=5.2cm]{figures/visualizations/MedicalEvent_500.svg}
-\caption{Exemplary visualization of an event form \ref{cMedical}}
+\caption{Illustrative visualization of an event from \ref{cMedical}}
 \label{fMedicalEvent}
 \end{figure}
 
 Generally, in a system that follows an event-driven architecture, the occurrence of an event entails an action \cite{Michelson.2006}. In event-driven stream processing, this action usually is the processing of the event in an event-driven pipeline consisting of event-driven \gls{pe}s. This structure of event-driven components facilitates the loose coupling and distribution of components \cite{Michelson.2006}. Event-driven \gls{pe}s thus act as reusable, independent event-driven functions.\\
-The following chapters address event-driven stream processing. For better readability, the event-driven \gls{pe}s and stream processing pipelines are referred to as \gls{pe}s and pipelines from here on.
+The following chapters address event-driven stream processing. For better readability, the event-driven \gls{pe}s and stream processing pipelines are referred to as \gls{pe}s and pipelines from this point forward.
 
 
 \subsubsection{State in Stream Processing}
